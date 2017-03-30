@@ -934,7 +934,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
 // Creates the GLFW window
 //
 static int createNativeWindow(_GLFWwindow* window,
-                              const _GLFWwndconfig* wndconfig)
+                              const _GLFWwndconfig* wndconfig,HWND parent)
 {
     int xpos, ypos, fullWidth, fullHeight;
     WCHAR* wideTitle;
@@ -976,7 +976,7 @@ static int createNativeWindow(_GLFWwindow* window,
                                            style,
                                            xpos, ypos,
                                            fullWidth, fullHeight,
-                                           NULL, // No parent window
+                                           parent, // No parent window
                                            NULL, // No window menu
                                            GetModuleHandleW(NULL),
                                            NULL);
@@ -1063,9 +1063,10 @@ void _glfwUnregisterWindowClassWin32(void)
 int _glfwPlatformCreateWindow(_GLFWwindow* window,
                               const _GLFWwndconfig* wndconfig,
                               const _GLFWctxconfig* ctxconfig,
-                              const _GLFWfbconfig* fbconfig)
+                              const _GLFWfbconfig* fbconfig,
+							  HWND parent)
 {
-    if (!createNativeWindow(window, wndconfig))
+    if (!createNativeWindow(window, wndconfig,parent))
         return GLFW_FALSE;
 
     if (ctxconfig->client != GLFW_NO_API)
